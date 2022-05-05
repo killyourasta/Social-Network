@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib import admin
 
-from .models import Group, Post
+from .models import Group, Post, Comment, Follow
 
 
 @admin.register(Post)
@@ -30,3 +30,28 @@ class GroupAdmin(admin.ModelAdmin):
     search_fields = ('title',)
     list_filter = ('description',)
     empty_value_display = settings.EMPTY_VALUE_DISPLAY
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = (
+        'post',
+        'author',
+        'text',
+        'created',
+    )
+    list_editable = ('author',)
+    search_fields = ('text',)
+    list_filter = ('created',)
+    empty_value_display = settings.EMPTY_VALUE_DISPLAY
+
+
+@admin.register(Follow)
+class FollowAdmin(admin.ModelAdmin):
+    list_display = (
+        'author',
+        'user',
+    )
+    list_editable = ('user',)
+    search_fields = ('user',)
+    list_filter = ('user',)

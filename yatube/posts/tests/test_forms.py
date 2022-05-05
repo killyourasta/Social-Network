@@ -82,6 +82,13 @@ class PostsFormTests(TestCase):
         test_post = Post.objects.order_by('-id').values()[0]
         test_image = test_post['image']
         self.assertEqual(test_image, f'posts/{PLOADED_IMG}')
+        self.assertFalse(
+            Post.objects.filter(
+                author=self.user,
+                text='Тестовый пост',
+                group=self.group,
+                image='это не картинка').exists()
+        )
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_comment_create_form(self):

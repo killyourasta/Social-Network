@@ -158,7 +158,7 @@ class PostsViewsTests(TestCase):
 
     def test_comment_create(self):
         test_post = Post.objects.order_by('-id')[0]
-        comment_count = Comment.objects.all().count()
+        comment_count = Comment.objects.count()
         form_data = {
             'text': 'Пост с комментарием',
             'author': self.user
@@ -171,4 +171,4 @@ class PostsViewsTests(TestCase):
             data=form_data,
             follow=True
         )
-        self.assertEqual(Comment.objects.all().count(), comment_count + 1)
+        self.assertEqual(Comment.objects.count(), comment_count + 1)

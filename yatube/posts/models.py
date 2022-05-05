@@ -113,11 +113,16 @@ class Follow(models.Model):
     )
 
     class Meta:
+        verbose_name = "Подписка"
+        verbose_name_plural = "Подписки"
         constraints = (
             UniqueConstraint(
-                fields=['author', 'user'],
+                fields=('author', 'user'),
                 name='%(app_label)s_%(class)s_unique__author__unique'
             ),
             CheckConstraint(check=(~Q(author=F('user'))),
                             name='%(app_label)s_%(class)s_user__neq__author')
         )
+
+        def __str__(self):
+            return self.id
