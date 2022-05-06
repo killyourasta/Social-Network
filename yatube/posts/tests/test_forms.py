@@ -82,13 +82,32 @@ class PostsFormTests(TestCase):
         test_post = Post.objects.order_by('-id').values()[0]
         test_image = test_post['image']
         self.assertEqual(test_image, f'posts/{PLOADED_IMG}')
-        self.assertFalse(
-            Post.objects.filter(
-                author=self.user,
-                text='Тестовый пост',
-                group=self.group,
-                image='это не картинка').exists()
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+
+    def test_post_without_picture(self):
+        post_count = Post.objects.count()
+        SMALL_GIF = (
+            b'\x47\x49\x46\x38\x39\x61\x02\x00'
+            b'\x01\x00\x80\x00\x00\x00\x00\x00'
+            b'\xFF\xFF\xFF\x21\xF9\x04\x00\x00'
+            b'\x00\x00\x00\x2C\x00\x00\x00\x00'
+            b''
+            b'\x0A\x00\x3B'
         )
+        PLOADED_IMG = SimpleUploadedFile(name='small.gif',
+                                         content=SMALL_GIF,
+                                         content_type='image/gif'
+                                         )
+        form_data = {
+            'text': 'Пост с картинкой',
+            'group': self.group.id,
+            'image': PLOADED_IMG
+        }
+        response = self.authorized_client.post(
+            reverse(fixt.POST_CREATE_URL_NAME),
+            data=form_data,
+            follow=True,)
+        self.assertEqual(Post.objects.count(), post_count)
         self.assertEqual(response.status_code, HTTPStatus.OK)
 
     def test_comment_create_form(self):
