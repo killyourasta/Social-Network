@@ -1,3 +1,8 @@
+.vscode/
+.git/
+static
+media
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -137,7 +142,6 @@ dmypy.json
 *.sublime-project
 *.sublime-workspace
 
-.vscode/
 *.code-workspace
 
 # Local History for Visual Studio Code
@@ -145,8 +149,8 @@ dmypy.json
 
 .mypy_cache
 
-# папки со статикой и медиа
-static/
-yatube/posts/static/
-yatube/media/
-
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
